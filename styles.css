@@ -2,618 +2,1281 @@
 
 /**
  * ==========================================================================
- * USVRE - TACTICAL UI DESIGN SYSTEM
- * Architecture: BEM + ITCSS + CSS Variables
- * Description: Sistema de diseño de alto contraste orientado a operaciones
- * de emergencia, interfaces tipo HUD y visualización crítica de datos.
+ * USVRE - UNIDAD DE SOPORTE VITAL Y RESCATE ESTRATÉGICO
+ * Arquitectura CSS: BEM (Block, Element, Modifier) + Variables Tácticas
+ * Autor: Senior UI/UX & Full-Stack Developer
  * ==========================================================================
  */
 
 /* ==========================================================================
-   1. TOKENS & VARIABLES DE ENTORNO (:root)
+   1. VARIABLES DE ENTORNO Y SISTEMA DE DISEÑO (HUD THEME)
    ========================================================================== */
 :root {
-    /* Paleta de Colores Base - Modo Noche Táctico */
-    --color-bg-base: #06090e;      /* Negro muy profundo, casi vacío */
-    --color-bg-surface: #0e1520;   /* Panel base */
-    --color-bg-surface-2: #162232; /* Panel elevado */
-    --color-bg-surface-3: #1f2e43; /* Panel interactivo */
+    /* 1.1 Colores Base (Modo Oscuro / Estilo Táctico) */
+    --clr-bg-black: #020408;
+    --clr-bg-base: #060a11;
+    --clr-bg-surface: #0a111a;
+    --clr-bg-surface-alt: #0f1826;
+    --clr-bg-surface-hover: #142033;
+    --clr-bg-surface-light: #1c2a40;
     
-    /* Colores Acento - Emergencia y Táctica */
-    --color-accent-red: #e63946;    /* Rojo Rescate - Alertas críticas */
-    --color-accent-red-glow: rgba(230, 57, 70, 0.4);
-    --color-accent-amber: #f4a261;  /* Ámbar Alerta - Advertencias */
-    --color-accent-amber-glow: rgba(244, 162, 97, 0.4);
-    --color-accent-blue: #457b9d;   /* Azul Táctico - Información normal */
-    --color-accent-blue-glow: rgba(69, 123, 157, 0.4);
-    --color-accent-cyan: #4cc9f0;   /* Cyan HUD - Elementos digitales/futuristas */
-    --color-accent-cyan-glow: rgba(76, 201, 240, 0.4);
-    --color-accent-green: #2a9d8f;  /* Verde Seguridad - Sistemas estables */
-    
-    /* Escala de Grises - Textos y bordes */
-    --color-text-primary: #e2e8f0;
-    --color-text-secondary: #94a3b8;
-    --color-text-muted: #64748b;
-    --color-border-light: rgba(255, 255, 255, 0.05);
-    --color-border-medium: rgba(255, 255, 255, 0.1);
-    --color-border-hard: rgba(76, 201, 240, 0.2);
+    /* 1.2 Acentos Tácticos y de Emergencia */
+    --clr-tactical-blue: #00e5ff;
+    --clr-tactical-blue-dark: #0098a8;
+    --clr-tactical-blue-glow: rgba(0, 229, 255, 0.4);
+    --clr-tactical-blue-alpha: rgba(0, 229, 255, 0.1);
 
-    /* Tipografía - Escalas y Familias */
-    --font-family-sans: 'Rajdhani', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    --font-family-mono: 'Roboto Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    
-    --font-size-xs: 0.75rem;     /* 12px */
-    --font-size-sm: 0.875rem;    /* 14px */
-    --font-size-base: 1rem;      /* 16px */
-    --font-size-lg: 1.125rem;    /* 18px */
-    --font-size-xl: 1.25rem;     /* 20px */
-    --font-size-2xl: 1.5rem;     /* 24px */
-    --font-size-3xl: 1.875rem;   /* 30px */
-    --font-size-4xl: 2.25rem;    /* 36px */
-    --font-size-5xl: 3rem;       /* 48px */
-    --font-size-6xl: 4rem;       /* 64px */
+    --clr-emergency-red: #ff2a2a;
+    --clr-emergency-red-dark: #a60000;
+    --clr-emergency-red-glow: rgba(255, 42, 42, 0.5);
+    --clr-emergency-red-alpha: rgba(255, 42, 42, 0.1);
 
-    /* Espaciados Sistemáticos (Base 4px / 8px) */
-    --space-1: 0.25rem;  /* 4px */
-    --space-2: 0.5rem;   /* 8px */
-    --space-3: 0.75rem;  /* 12px */
-    --space-4: 1rem;     /* 16px */
-    --space-6: 1.5rem;   /* 24px */
-    --space-8: 2rem;     /* 32px */
-    --space-12: 3rem;    /* 48px */
-    --space-16: 4rem;    /* 64px */
-    --space-24: 6rem;    /* 96px */
-    
-    /* Transiciones Dinámicas */
-    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-bounce: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    --clr-amber-alert: #ffb300;
+    --clr-amber-alert-dark: #b37d00;
+    --clr-amber-alert-glow: rgba(255, 179, 0, 0.4);
+    --clr-amber-alert-alpha: rgba(255, 179, 0, 0.1);
 
-    /* Elevación / Sombras HUD */
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
-    --shadow-hud-cyan: 0 0 10px var(--color-accent-cyan-glow), inset 0 0 15px var(--color-accent-cyan-glow);
-    --shadow-hud-red: 0 0 15px var(--color-accent-red-glow), inset 0 0 15px var(--color-accent-red-glow);
+    --clr-success-green: #00ff88;
+    --clr-success-green-glow: rgba(0, 255, 136, 0.4);
 
-    /* Capas (Z-Index) */
-    --z-index-background: -10;
-    --z-index-canvas: -5;
-    --z-index-base: 1;
-    --z-index-hud: 10;
-    --z-index-header: 100;
-    --z-index-dropdown: 200;
-    --z-index-overlay: 300;
-    --z-index-modal: 400;
-    --z-index-toast: 500;
-    
-    /* Layout */
-    --container-max-width: 1280px;
-    --border-radius-sm: 2px; /* Radios angulares para look táctico */
-    --border-radius-base: 4px;
-    --border-radius-lg: 8px;
-    --border-radius-full: 9999px;
+    /* 1.3 Tipografía de UI y Lectura */
+    --clr-text-main: #e2e8f0;
+    --clr-text-muted: #8b9bb4;
+    --clr-text-dark: #475a77;
+
+    /* 1.4 Variables de Tipografía */
+    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-mono: 'Share Tech Mono', monospace;
+    --font-display: 'Syncopate', sans-serif;
+
+    /* 1.5 Escala Tipográfica (Rem) */
+    --text-xs: 0.75rem;     /* 12px */
+    --text-sm: 0.875rem;    /* 14px */
+    --text-base: 1rem;      /* 16px */
+    --text-md: 1.125rem;    /* 18px */
+    --text-lg: 1.25rem;     /* 20px */
+    --text-xl: 1.5rem;      /* 24px */
+    --text-2xl: 2rem;       /* 32px */
+    --text-3xl: 2.5rem;     /* 40px */
+    --text-4xl: 3.5rem;     /* 56px */
+    --text-5xl: 4.5rem;     /* 72px */
+
+    /* 1.6 Sistema de Espaciados */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
+    --spacing-3xl: 5rem;
+    --spacing-4xl: 8rem;
+
+    /* 1.7 Radios de Borde Tácticos (Geométricos/Duros) */
+    --radius-sm: 2px;
+    --radius-md: 4px;
+    --radius-lg: 8px;
+    --radius-hud: 15px; 
+    --radius-round: 50%;
+
+    /* 1.8 Z-Index Estructurado */
+    --z-negative: -1;
+    --z-base: 1;
+    --z-above: 10;
+    --z-overlay: 100;
+    --z-header: 1000;
+    --z-dropdown: 1050;
+    --z-modal: 2000;
+    --z-toast: 3000;
+    --z-hud: 9999;
+
+    /* 1.9 Transiciones y Tiempos */
+    --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-base: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-bounce: 0.5s cubic-bezier(0.68, -0.55, 0.26, 1.55);
+
+    /* 1.10 Bordes Tácticos Generales */
+    --border-tactical: 1px solid rgba(0, 229, 255, 0.15);
+    --border-tactical-strong: 1px solid rgba(0, 229, 255, 0.4);
+    --border-emergency: 1px solid rgba(255, 42, 42, 0.3);
 }
 
 /* ==========================================================================
-   2. RESET Y NORMALIZACIÓN
+   2. RESET Y ESTILOS BASE (NORMALIZE TÁCTICO)
    ========================================================================== */
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
+*, *::before, *::after {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 html {
     font-size: 100%;
     scroll-behavior: smooth;
-    -webkit-text-size-adjust: 100%;
 }
 
 body {
-    background-color: var(--color-bg-base);
-    color: var(--color-text-primary);
-    font-family: var(--font-family-sans);
-    font-size: var(--font-size-base);
+    background-color: var(--clr-bg-base);
+    color: var(--clr-text-main);
+    font-family: var(--font-sans);
     line-height: 1.6;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    position: relative;
+    background-image: 
+        linear-gradient(rgba(10, 17, 26, 0.8) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(10, 17, 26, 0.8) 1px, transparent 1px);
+    background-size: 30px 30px;
+    background-attachment: fixed;
 }
 
-/* Estilización de Barras de Desplazamiento (Scrollbar táctico) */
+/* Personalización de la barra de desplazamiento (Scrollbar UI) */
 ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
 }
+
 ::-webkit-scrollbar-track {
-    background: var(--color-bg-base);
-    border-left: 1px solid var(--color-border-medium);
+    background: var(--clr-bg-black);
+    border-left: 1px solid var(--clr-bg-surface-light);
 }
+
 ::-webkit-scrollbar-thumb {
-    background: var(--color-text-muted);
-    border-radius: var(--border-radius-sm);
+    background: var(--clr-tactical-blue-dark);
+    border-radius: var(--radius-sm);
 }
+
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--color-accent-cyan);
-}
-
-/* Selección de Texto */
-::selection {
-    background-color: var(--color-accent-red);
-    color: #ffffff;
-}
-::-moz-selection {
-    background-color: var(--color-accent-red);
-    color: #ffffff;
-}
-
-/* Elementos Multimedia Básicos */
-img, picture, video, canvas, svg {
-    display: block;
-    max-width: 100%;
-    height: auto;
+    background: var(--clr-tactical-blue);
 }
 
 /* Enlaces y Listas */
 a {
     color: inherit;
     text-decoration: none;
-    transition: color var(--transition-fast);
+    transition: color var(--transition-base);
 }
+
 ul, ol {
     list-style: none;
 }
 
-/* Formularios y Botones base */
-button, input, select, textarea {
-    font: inherit;
-    background: transparent;
-    border: none;
-}
-button {
-    cursor: pointer;
-}
-button:focus, input:focus, textarea:focus {
-    outline: 1px solid var(--color-accent-cyan);
-    outline-offset: 2px;
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
 }
 
 /* ==========================================================================
-   3. TIPOGRAFÍA Y ESCALAS
+   3. SISTEMA DE TIPOGRAFÍA
    ========================================================================== */
-h1, .text-h1,
-h2, .text-h2,
-h3, .text-h3,
-h4, .text-h4,
-h5, .text-h5,
-h6, .text-h6 {
-    font-family: var(--font-family-sans);
-    font-weight: 700;
-    line-height: 1.1;
-    color: #ffffff;
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    line-height: 1.2;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: var(--space-4);
+    letter-spacing: 2px;
+    margin-bottom: var(--spacing-md);
+    color: #ffffff;
 }
 
-h1, .text-h1 { font-size: clamp(var(--font-size-4xl), 5vw, var(--font-size-6xl)); }
-h2, .text-h2 { font-size: clamp(var(--font-size-3xl), 4vw, var(--font-size-5xl)); }
-h3, .text-h3 { font-size: clamp(var(--font-size-2xl), 3vw, var(--font-size-3xl)); }
-h4, .text-h4 { font-size: clamp(var(--font-size-xl), 2vw, var(--font-size-2xl)); }
+h1 { font-size: clamp(var(--text-3xl), 5vw, var(--text-5xl)); }
+h2 { font-size: clamp(var(--text-2xl), 4vw, var(--text-4xl)); }
+h3 { font-size: clamp(var(--text-xl), 3vw, var(--text-2xl)); }
+h4 { font-size: clamp(var(--text-lg), 2.5vw, var(--text-xl)); }
 
-.text-mono {
-    font-family: var(--font-family-mono);
-    letter-spacing: 0;
-}
+.text-body-large { font-size: var(--text-lg); margin-bottom: var(--spacing-md); }
+.text-body-muted { color: var(--text-muted); }
+.text-sm { font-size: var(--text-sm); }
+.text-xs { font-size: var(--text-xs); }
 
-/* Clases Utilitarias de Color Textual */
-.text-accent-red { color: var(--color-accent-red) !important; text-shadow: 0 0 8px var(--color-accent-red-glow); }
-.text-accent-amber { color: var(--color-accent-amber) !important; text-shadow: 0 0 8px var(--color-accent-amber-glow); }
-.text-accent-blue { color: var(--color-accent-blue) !important; }
-.text-accent-cyan { color: var(--color-accent-cyan) !important; text-shadow: 0 0 8px var(--color-accent-cyan-glow); }
-.text-accent-green { color: var(--color-accent-green) !important; }
-.text-muted { color: var(--color-text-muted) !important; }
-.text-center { text-align: center !important; }
+/* Colores de texto útiles */
+.text-tactical-blue { color: var(--clr-tactical-blue); }
+.text-red { color: var(--clr-emergency-red); }
+.text-amber { color: var(--clr-amber-alert); }
+.text-accent { color: var(--clr-tactical-blue); text-shadow: 0 0 10px var(--clr-tactical-blue-glow); }
 
 /* ==========================================================================
-   4. SISTEMA DE LAYOUT Y CONTENEDORES
+   4. CLASES UTILITARIAS Y LAYOUT
    ========================================================================== */
-.usvre-app {
-    position: relative;
-    width: 100%;
-}
-
-.main-content {
-    flex-grow: 1;
-    position: relative;
-    z-index: var(--z-index-base);
-}
-
 .container {
     width: 100%;
-    max-width: var(--container-max-width);
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: var(--space-4);
-    padding-right: var(--space-4);
-}
-@media (min-width: 768px) {
-    .container { padding-left: var(--space-8); padding-right: var(--space-8); }
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-xl);
 }
 
-.tactical-section {
-    padding-top: var(--space-16);
-    padding-bottom: var(--space-16);
+.section-padding {
+    padding: var(--spacing-4xl) 0;
+}
+
+.bg-darker {
+    background-color: var(--clr-bg-black);
     position: relative;
-}
-@media (min-width: 1024px) {
-    .tactical-section { padding-top: var(--space-24); padding-bottom: var(--space-24); }
+    border-top: var(--border-tactical);
+    border-bottom: var(--border-tactical);
 }
 
-/* Utilitarios de Margen */
-.mb-1 { margin-bottom: var(--space-1) !important; }
-.mb-2 { margin-bottom: var(--space-2) !important; }
-.mb-3 { margin-bottom: var(--space-3) !important; }
-.mb-4 { margin-bottom: var(--space-4) !important; }
-.mb-6 { margin-bottom: var(--space-6) !important; }
-.mb-8 { margin-bottom: var(--space-8) !important; }
-.mt-4 { margin-top: var(--space-4) !important; }
-.border-y { border-top: 1px solid var(--color-border-medium); border-bottom: 1px solid var(--color-border-medium); }
-.border-t { border-top: 1px solid var(--color-border-medium); }
-.bg-darker { background-color: var(--color-bg-base); }
+/* Grids */
+.grid-2-cols {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-2xl);
+}
+
+.grid-3-cols {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-xl);
+}
+
+.grid-4-cols {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+.align-center { align-items: center; }
+.text-center { text-align: center; }
+.block { display: block; }
+.w-full { width: 100%; }
+
+/* Margins */
+.mt-xs { margin-top: var(--spacing-xs); }
+.mt-sm { margin-top: var(--spacing-sm); }
+.mt-md { margin-top: var(--spacing-md); }
+.mt-lg { margin-top: var(--spacing-lg); }
+.mb-xs { margin-bottom: var(--spacing-xs); }
+.mb-sm { margin-bottom: var(--spacing-sm); }
+.mb-md { margin-bottom: var(--spacing-md); }
+.mb-lg { margin-bottom: var(--spacing-lg); }
 
 /* ==========================================================================
-   5. EFECTOS HUD Y ANIMACIONES CORE
+   5. COMPONENTES GLOBALES
    ========================================================================== */
 
-/* Overlay de Scanline Tipo Radar CRT */
-.hud-scanline {
+/* 5.1 HUD Overlay Perimetral */
+.hud-overlay {
     position: fixed;
-    top: 0; left: 0; width: 100vw; height: 100vh;
-    background: linear-gradient(
-        to bottom,
-        rgba(255, 255, 255, 0),
-        rgba(255, 255, 255, 0) 50%,
-        rgba(0, 0, 0, 0.1) 50%,
-        rgba(0, 0, 0, 0.1)
-    );
-    background-size: 100% 4px;
-    z-index: var(--z-index-overlay);
+    top: 0; left: 0; width: 100%; height: 100%;
     pointer-events: none;
-    opacity: 0.4;
+    z-index: var(--z-hud);
 }
 
-/* Viñeta para oscuridad en los bordes */
-.hud-vignette {
-    position: fixed;
-    top: 0; left: 0; width: 100vw; height: 100vh;
-    background: radial-gradient(circle at center, transparent 40%, rgba(0, 0, 0, 0.8) 100%);
-    z-index: var(--z-index-overlay);
-    pointer-events: none;
+.hud-overlay__corner {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--clr-tactical-blue-glow);
+    transition: border-color var(--transition-base);
 }
 
-/* Animaciones Keyframes */
-@keyframes pulse-danger {
-    0% { box-shadow: 0 0 0 0 rgba(230, 57, 70, 0.7); }
-    70% { box-shadow: 0 0 0 15px rgba(230, 57, 70, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(230, 57, 70, 0); }
-}
+.hud-overlay__corner--tl { top: 20px; left: 20px; border-right: none; border-bottom: none; }
+.hud-overlay__corner--tr { top: 20px; right: 20px; border-left: none; border-bottom: none; }
+.hud-overlay__corner--bl { bottom: 20px; left: 20px; border-right: none; border-top: none; }
+.hud-overlay__corner--br { bottom: 20px; right: 20px; border-left: none; border-top: none; }
 
-@keyframes glow-cyan {
-    0%, 100% { filter: drop-shadow(0 0 5px rgba(76,201,240,0.5)); }
-    50% { filter: drop-shadow(0 0 15px rgba(76,201,240,0.8)); }
-}
-
-@keyframes blink-alert {
-    0%, 49% { opacity: 1; }
-    50%, 100% { opacity: 0; }
-}
-
-@keyframes scan-vertical {
-    0% { transform: translateY(-100%); opacity: 0; }
-    10% { opacity: 1; }
-    90% { opacity: 1; }
-    100% { transform: translateY(100%); opacity: 0; }
-}
-
-.blink {
-    animation: blink-alert 1s infinite;
-}
-
-/* ==========================================================================
-   6. SISTEMA DE BOTONES (BEM)
-   ========================================================================== */
+/* 5.2 Botones Tácticos */
 .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: var(--space-2);
-    padding: var(--space-3) var(--space-6);
-    font-family: var(--font-family-sans);
-    font-size: var(--font-size-base);
-    font-weight: 600;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    border: 1px solid transparent;
-    border-radius: var(--border-radius-sm);
-    transition: all var(--transition-fast);
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 0.8rem 1.8rem;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
     position: relative;
     overflow: hidden;
-    white-space: nowrap;
+    transition: all var(--transition-fast);
+    z-index: 1;
 }
 
-/* Modificadores de Botón */
 .btn--primary {
-    background-color: var(--color-bg-surface-3);
-    color: var(--color-accent-cyan);
-    border-color: var(--color-accent-cyan);
-    box-shadow: inset 0 0 0 1px rgba(76, 201, 240, 0.2);
-}
-.btn--primary:hover {
-    background-color: rgba(76, 201, 240, 0.1);
-    box-shadow: 0 0 15px var(--color-accent-cyan-glow), inset 0 0 10px var(--color-accent-cyan-glow);
-    text-shadow: 0 0 5px var(--color-accent-cyan);
+    background-color: var(--clr-tactical-blue-alpha);
+    color: var(--clr-tactical-blue);
+    border: 1px solid var(--clr-tactical-blue);
+    box-shadow: inset 0 0 10px var(--clr-tactical-blue-alpha);
 }
 
-.btn--danger {
-    background-color: rgba(230, 57, 70, 0.1);
-    color: var(--color-text-primary);
-    border-color: var(--color-accent-red);
-}
-.btn--danger:hover {
-    background-color: var(--color-accent-red);
-    color: #ffffff;
-    box-shadow: 0 0 20px var(--color-accent-red-glow);
+.btn--primary:hover {
+    background-color: var(--clr-tactical-blue);
+    color: var(--clr-bg-black);
+    box-shadow: 0 0 20px var(--clr-tactical-blue-glow);
 }
 
 .btn--outline {
     background-color: transparent;
-    color: var(--color-text-secondary);
-    border-color: var(--color-text-muted);
+    color: var(--clr-text-main);
+    border: 1px solid var(--clr-text-dark);
 }
+
 .btn--outline:hover {
-    color: #ffffff;
-    border-color: #ffffff;
-    background-color: rgba(255,255,255,0.05);
+    border-color: var(--clr-text-main);
+    background-color: rgba(255, 255, 255, 0.05);
 }
 
-.btn--large {
-    padding: var(--space-4) var(--space-8);
-    font-size: var(--font-size-lg);
+.btn--outline-amber {
+    background-color: transparent;
+    color: var(--clr-amber-alert);
+    border: 1px solid var(--clr-amber-alert);
 }
 
-.btn--full {
-    width: 100%;
+.btn--outline-amber:hover {
+    background-color: var(--clr-amber-alert);
+    color: var(--clr-bg-black);
+    box-shadow: 0 0 15px var(--clr-amber-alert-glow);
 }
 
-.btn--pulse {
-    animation: pulse-danger 2s infinite;
+.btn--emergency {
+    background-color: var(--clr-emergency-red-alpha);
+    color: var(--clr-emergency-red);
+    border: 1px solid var(--clr-emergency-red);
 }
 
-/* Decoración tecnológica en botones */
-.btn::before, .btn::after {
-    content: '';
+.btn--emergency:hover {
+    background-color: var(--clr-emergency-red);
+    color: #fff;
+    box-shadow: 0 0 25px var(--clr-emergency-red-glow);
+}
+
+.btn--sm {
+    padding: 0.5rem 1rem;
+    font-size: var(--text-xs);
+}
+
+.btn__icon {
+    width: 18px;
+    height: 18px;
+}
+
+/* Efecto Escáner en Botones (Glitch/Scan) */
+.btn--glitch .btn__scanner {
     position: absolute;
-    width: 6px;
-    height: 6px;
-    border: 1px solid transparent;
-    transition: var(--transition-fast);
+    top: 0; left: -100%;
+    width: 50%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transform: skewX(-20deg);
+    transition: none;
 }
-.btn::before { top: 0; left: 0; border-top-color: currentColor; border-left-color: currentColor; }
-.btn::after { bottom: 0; right: 0; border-bottom-color: currentColor; border-right-color: currentColor; }
 
-.btn:hover::before, .btn:hover::after {
-    width: 12px;
-    height: 12px;
+.btn--glitch:hover .btn__scanner {
+    animation: buttonScan 1s ease-in-out infinite;
+}
+
+@keyframes buttonScan {
+    0% { left: -100%; }
+    100% { left: 200%; }
 }
 
 /* ==========================================================================
-   7. COMPONENTES: HEADER & NAVEGACIÓN
+   6. HEADER Y NAVEGACIÓN
    ========================================================================== */
 .header {
     position: fixed;
     top: 0; left: 0; width: 100%;
     height: 80px;
-    background-color: rgba(6, 9, 14, 0.85);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--color-border-medium);
-    z-index: var(--z-index-header);
-    transition: all var(--transition-base);
+    background: rgba(6, 10, 17, 0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: var(--border-tactical);
+    z-index: var(--z-header);
+    transition: background var(--transition-base), height var(--transition-base);
 }
 
-.header.is-scrolled {
-    height: 60px;
-    background-color: rgba(6, 9, 14, 0.95);
+.header.scrolled {
+    height: 70px;
+    background: rgba(2, 4, 8, 0.95);
+    border-bottom-color: var(--clr-tactical-blue);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-    border-bottom-color: var(--color-accent-cyan);
 }
 
 .header__container {
-    height: 100%;
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-xl);
 }
 
-.header__brand {
+/* Brand Logo */
+.brand {
     display: flex;
     align-items: center;
-    gap: var(--space-3);
-    z-index: calc(var(--z-index-header) + 2);
+    gap: 1rem;
 }
 
-.header__logo-wrapper {
-    width: 40px;
-    height: 40px;
+.brand__logo-wrapper {
+    position: relative;
+    width: 45px;
+    height: 45px;
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid var(--color-border-medium);
-    border-radius: var(--border-radius-sm);
-    background: var(--color-bg-surface);
-    overflow: hidden;
-    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-sm);
+    padding: 5px;
+    background: var(--clr-bg-black);
 }
 
-/* Animación de escaner sobre el logo */
-.header__logo-wrapper::after {
-    content: '';
+.brand__logo {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.2));
+}
+
+.brand__scanner-line {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 2px;
-    background: var(--color-accent-cyan);
-    box-shadow: 0 0 10px var(--color-accent-cyan);
-    animation: scan-vertical 3s linear infinite;
+    background: var(--clr-tactical-blue);
+    box-shadow: 0 0 8px var(--clr-tactical-blue);
+    animation: logoScan 3s linear infinite alternate;
+    opacity: 0.7;
 }
 
-.header__logo {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    padding: 4px;
+@keyframes logoScan {
+    0% { top: 0%; opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { top: 100%; opacity: 0; }
 }
 
-.header__title {
+.brand__text {
     display: flex;
     flex-direction: column;
 }
 
-.header__acronym {
-    font-size: var(--font-size-xl);
+.brand__title {
+    font-family: var(--font-display);
     font-weight: 700;
-    line-height: 1;
-    color: #ffffff;
+    font-size: var(--text-lg);
     letter-spacing: 2px;
+    color: #fff;
+    line-height: 1.1;
 }
 
-.header__subtitle {
-    font-size: var(--font-size-xs);
-    color: var(--color-text-secondary);
-    font-family: var(--font-family-mono);
+.brand__subtitle {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--clr-tactical-blue);
+    letter-spacing: 1px;
     text-transform: uppercase;
 }
 
-.header__nav {
-    display: none; /* Oculto por defecto en móvil */
-}
-
-@media (min-width: 1024px) {
-    .header__nav {
-        display: block;
-        flex-grow: 1;
-        margin-left: var(--space-12);
-    }
-    
-    .header__menu {
-        display: flex;
-        gap: var(--space-6);
-    }
-
-    .header__menu-link {
-        font-family: var(--font-family-sans);
-        font-size: var(--font-size-sm);
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        color: var(--color-text-secondary);
-        padding: var(--space-2) 0;
-        position: relative;
-    }
-
-    .header__menu-link:hover,
-    .header__menu-link.is-active {
-        color: var(--color-accent-cyan);
-        text-shadow: 0 0 8px var(--color-accent-cyan-glow);
-    }
-
-    .header__menu-link::after {
-        content: '';
-        position: absolute;
-        bottom: 0; left: 0; width: 0%; height: 2px;
-        background-color: var(--color-accent-cyan);
-        transition: width var(--transition-base);
-    }
-
-    .header__menu-link:hover::after,
-    .header__menu-link.is-active::after {
-        width: 100%;
-    }
-}
-
-.header__actions {
+/* Navigation Links */
+.nav {
     display: flex;
     align-items: center;
-    gap: var(--space-4);
+    gap: var(--spacing-xl);
 }
 
-.header__mobile-toggle {
-    display: block;
-    width: 40px;
-    height: 40px;
-    border: 1px solid var(--color-border-medium);
-    background: var(--color-bg-surface);
-    border-radius: var(--border-radius-sm);
+.nav__list {
+    display: flex;
+    gap: var(--spacing-lg);
+}
+
+.nav__link {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    text-transform: uppercase;
+    color: var(--clr-text-muted);
+    letter-spacing: 1.5px;
     position: relative;
-    z-index: calc(var(--z-index-header) + 2);
+    padding: 0.5rem 0;
 }
 
-@media (min-width: 1024px) {
-    .header__mobile-toggle {
-        display: none;
-    }
+.nav__link:hover, .nav__link--active {
+    color: var(--clr-tactical-blue);
 }
 
-.header__hamburger,
-.header__hamburger::before,
-.header__hamburger::after {
-    display: block;
-    width: 20px;
-    height: 2px;
-    background-color: var(--color-text-primary);
+.nav__link::after {
+    content: '';
     position: absolute;
-    left: 9px;
-    transition: var(--transition-base);
+    bottom: 0; left: 0;
+    width: 0%; height: 2px;
+    background: var(--clr-tactical-blue);
+    transition: width var(--transition-base);
+    box-shadow: 0 0 8px var(--clr-tactical-blue-glow);
 }
-.header__hamburger { top: 18px; }
-.header__hamburger::before { content: ''; top: -6px; left: 0; }
-.header__hamburger::after { content: ''; top: 6px; left: 0; }
 
-.header__mobile-toggle.is-active .header__hamburger { background-color: transparent; }
-.header__mobile-toggle.is-active .header__hamburger::before { top: 0; transform: rotate(45deg); background-color: var(--color-accent-cyan); }
-.header__mobile-toggle.is-active .header__hamburger::after { top: 0; transform: rotate(-45deg); background-color: var(--color-accent-cyan); }
+.nav__link:hover::after, .nav__link--active::after {
+    width: 100%;
+}
 
-/* Menú móvil abierto */
-@media (max-width: 1023px) {
-    .header__nav.is-open {
-        display: block;
-        position: fixed;
-        top: 0; left: 0; width: 100%; height: 100vh;
-        background-color: rgba(6, 9, 14, 0.98);
-        padding-top: 100px;
-        z-index: calc(var(--z-index-header) + 1);
-        border-top: 2px solid var(--color-accent-cyan);
-    }
+/* Botón Hamburguesa (Mobile) */
+.nav-toggle {
+    display: none;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    width: 30px;
+    height: 20px;
+    position: relative;
+    z-index: calc(var(--z-header) + 1);
+}
+
+.nav-toggle__line {
+    position: absolute;
+    width: 100%; height: 2px;
+    background: var(--clr-tactical-blue);
+    left: 0;
+    transition: all var(--transition-base);
+}
+
+.nav-toggle__line:nth-child(1) { top: 0; }
+.nav-toggle__line:nth-child(2) { top: 50%; transform: translateY(-50%); }
+.nav-toggle__line:nth-child(3) { bottom: 0; }
+
+/* ==========================================================================
+   7. HERO SECTION (INTERFAZ TÁCTICA)
+   ========================================================================== */
+.hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding-top: 80px; /* Offset del header */
+    overflow: hidden;
+}
+
+/* Background Canvas */
+.hero__canvas {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: var(--z-negative);
+    background: radial-gradient(circle at center, var(--clr-bg-surface-alt) 0%, var(--clr-bg-black) 100%);
+    opacity: 0.8;
+}
+
+/* Gradiente para transición suave con el resto de la página */
+.hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; width: 100%; height: 150px;
+    background: linear-gradient(to top, var(--clr-bg-base) 0%, transparent 100%);
+    z-index: var(--z-base);
+}
+
+.hero__content-wrapper {
+    position: relative;
+    z-index: var(--z-above);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3xl);
+}
+
+.hero__content {
+    max-width: 800px;
+}
+
+.hero__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--clr-amber-alert);
+    border: 1px solid rgba(255, 179, 0, 0.3);
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    background: rgba(255, 179, 0, 0.05);
+    margin-bottom: var(--spacing-lg);
+    letter-spacing: 1px;
+}
+
+.hero__badge-dot {
+    width: 8px; height: 8px;
+    background: var(--clr-amber-alert);
+    border-radius: 50%;
+}
+
+.hero__title {
+    margin-bottom: var(--spacing-md);
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+}
+
+.text-glow-blue {
+    color: var(--clr-tactical-blue);
+    text-shadow: 0 0 15px var(--clr-tactical-blue-glow);
+}
+
+.hero__description {
+    font-size: var(--text-lg);
+    color: var(--clr-text-muted);
+    max-width: 600px;
+    margin-bottom: var(--spacing-xl);
+    border-left: 2px solid var(--clr-tactical-blue);
+    padding-left: var(--spacing-md);
+    background: linear-gradient(90deg, rgba(0, 229, 255, 0.05) 0%, transparent 100%);
+}
+
+.hero__actions {
+    display: flex;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+}
+
+/* ==========================================================================
+   8. ESTADÍSTICAS DEL HERO (HUD DATA)
+   ========================================================================== */
+.hero__stats {
+    display: flex;
+    gap: var(--spacing-xl);
+    border-top: var(--border-tactical);
+    padding-top: var(--spacing-lg);
+}
+
+.stat-box {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.stat-box__value {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.stat-box__label {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--clr-tactical-blue);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+/* ==========================================================================
+   9. SCROLL INDICATOR
+   ========================================================================== */
+.scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    z-index: var(--z-above);
+}
+
+.scroll-indicator__text {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: var(--clr-tactical-blue);
+    letter-spacing: 2px;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    opacity: 0.7;
+}
+
+.scroll-indicator__line {
+    width: 1px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.scroll-indicator__line::after {
+    content: '';
+    position: absolute;
+    top: -100%; left: 0;
+    width: 100%; height: 100%;
+    background: var(--clr-tactical-blue);
+    animation: scrollDrop 2s ease-in-out infinite;
+}
+
+@keyframes scrollDrop {
+    0% { top: -100%; }
+    50% { top: 100%; }
+    100% { top: 100%; }
+}
+
+/* ==========================================================================
+   10. SECCIÓN: QUIÉNES SOMOS (ABOUT)
+   ========================================================================== */
+.about {
+    position: relative;
+    z-index: var(--z-base);
+}
+
+.tactical-frame {
+    position: relative;
+    padding: 20px;
+    background: rgba(10, 17, 26, 0.5);
+    border: 1px solid rgba(0, 229, 255, 0.1);
+    border-radius: var(--radius-sm);
+}
+
+/* Bordes en las esquinas estilo mira telescópica */
+.tactical-frame::before, .tactical-frame::after {
+    content: '';
+    position: absolute;
+    width: 30px; height: 30px;
+    border: 2px solid var(--clr-tactical-blue);
+    transition: all var(--transition-base);
+    pointer-events: none;
+    z-index: 2;
+}
+
+.tactical-frame::before {
+    top: -2px; left: -2px;
+    border-right: none; border-bottom: none;
+}
+
+.tactical-frame::after {
+    bottom: -2px; right: -2px;
+    border-left: none; border-top: none;
+}
+
+.tactical-frame:hover::before, .tactical-frame:hover::after {
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    opacity: 0.3;
+}
+
+.tactical-frame__grid-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: 
+        linear-gradient(rgba(0, 229, 255, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 229, 255, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.image-placeholder {
+    width: 100%;
+    aspect-ratio: 4/3;
+    background: var(--clr-bg-surface-hover);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.bg-pattern {
+    background-image: repeating-linear-gradient(45deg, var(--clr-bg-surface) 0, var(--clr-bg-surface) 2px, var(--clr-bg-surface-hover) 2px, var(--clr-bg-surface-hover) 8px);
+}
+
+.image-placeholder__text {
+    font-family: var(--font-mono);
+    color: var(--clr-text-muted);
+    font-size: var(--text-sm);
+    letter-spacing: 2px;
+    z-index: 2;
+}
+
+.tactical-frame__data-tag {
+    position: absolute;
+    bottom: 30px; right: 10px;
+    background: var(--clr-tactical-blue);
+    color: var(--clr-bg-black);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    padding: 2px 8px;
+    z-index: 3;
+}
+
+.tactical-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.tactical-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: var(--text-md);
+    color: var(--clr-text-main);
+}
+
+.tactical-list__icon {
+    width: 12px; height: 12px;
+    border: 1px solid var(--clr-tactical-blue);
+    background: rgba(0, 229, 255, 0.2);
+    position: relative;
+}
+.tactical-list__icon::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 4px; height: 4px;
+    background: var(--clr-tactical-blue);
+}
+
+/* ==========================================================================
+   11. SECCIÓN: OPERACIONES (TIMELINE)
+   ========================================================================== */
+.section-header {
+    text-align: center;
+    margin-bottom: var(--spacing-2xl);
+}
+
+.section-subtitle {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: var(--spacing-xs);
+}
+
+/* Línea de tiempo (Timeline) */
+.timeline {
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto;
+    padding-left: 20px;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 24px;
+    width: 2px; height: 100%;
+    background: linear-gradient(to bottom, var(--clr-tactical-blue) 0%, rgba(0, 229, 255, 0.1) 100%);
+}
+
+.timeline__item {
+    position: relative;
+    padding-left: 40px;
+    margin-bottom: var(--spacing-2xl);
+}
+
+.timeline__item:last-child {
+    margin-bottom: 0;
+}
+
+.timeline__node {
+    position: absolute;
+    top: 0; left: 0;
+    width: 10px; height: 10px;
+    background: var(--clr-tactical-blue);
+    border-radius: 50%;
+    transform: translateX(-4px); /* Alineación manual con la línea */
+    box-shadow: 0 0 10px var(--clr-tactical-blue-glow);
+}
+
+/* Tarjetas Tácticas de los Hitos */
+.tactical-card {
+    background: var(--clr-bg-surface);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-left: 3px solid var(--clr-tactical-blue);
+    padding: var(--spacing-lg);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.tactical-card:hover {
+    transform: translateX(10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border-color: rgba(0, 229, 255, 0.2);
+}
+
+.tactical-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-sm);
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.tactical-card__date {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--clr-text-muted);
+}
+
+.badge {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    border-radius: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.badge--critical { background: var(--clr-emergency-red-alpha); color: var(--clr-emergency-red); border: 1px solid var(--clr-emergency-red); }
+.badge--success { background: rgba(0, 255, 136, 0.1); color: var(--clr-success-green); border: 1px solid var(--clr-success-green); }
+
+.tactical-card__title {
+    font-size: var(--text-xl);
+    margin-bottom: var(--spacing-sm);
+    color: #fff;
+    text-transform: none; /* Override display font transform if needed */
+}
+
+.tactical-card__body {
+    color: var(--clr-text-muted);
+    font-size: var(--text-md);
+}
+
+/* ==========================================================================
+   12. SECCIÓN: INFORMACIÓN DE EMERGENCIA
+   ========================================================================== */
+.info-panel {
+    background: var(--clr-bg-surface-alt);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-md);
+    position: relative;
+    overflow: hidden;
+    transition: transform var(--transition-base), border-color var(--transition-base);
+}
+
+.info-panel::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 3px;
+}
+
+.info-panel.alert-panel::before { background: var(--clr-emergency-red); }
+.info-panel.tech-panel::before { background: var(--clr-tactical-blue); }
+.info-panel.action-panel::before { background: var(--clr-amber-alert); }
+
+.info-panel:hover {
+    transform: translateY(-5px);
+}
+.info-panel.alert-panel:hover { border-color: var(--clr-emergency-red-alpha); box-shadow: 0 10px 30px var(--clr-emergency-red-alpha); }
+.info-panel.tech-panel:hover { border-color: var(--clr-tactical-blue-alpha); box-shadow: 0 10px 30px var(--clr-tactical-blue-alpha); }
+.info-panel.action-panel:hover { border-color: var(--clr-amber-alert-alpha); box-shadow: 0 10px 30px var(--clr-amber-alert-alpha); }
+
+.info-panel__icon-wrapper {
+    width: 32px; height: 32px;
+    margin-bottom: var(--spacing-md);
+}
+
+.info-panel__title {
+    font-size: var(--text-lg);
+    margin-bottom: var(--spacing-sm);
+}
+
+.info-panel__desc {
+    color: var(--clr-text-muted);
+    font-size: var(--text-sm);
+    margin-bottom: var(--spacing-md);
+    min-height: 60px; /* Alineación de grillas */
+}
+
+.info-panel__status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: #fff;
+    background: rgba(0,0,0,0.3);
+    padding: 6px 12px;
+    border-radius: 4px;
+    width: max-content;
+}
+
+/* Indicadores LED de Estado */
+.status-indicator {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+}
+.status-indicator.red { background: var(--clr-emergency-red); box-shadow: 0 0 8px var(--clr-emergency-red); animation: blinkRed 1s infinite; }
+.status-indicator.yellow { background: var(--clr-amber-alert); box-shadow: 0 0 8px var(--clr-amber-alert); }
+.status-indicator.green { background: var(--clr-success-green); box-shadow: 0 0 8px var(--clr-success-green); }
+
+@keyframes blinkRed {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
+
+/* ==========================================================================
+   13. FOOTER
+   ========================================================================== */
+.footer {
+    background: var(--clr-bg-black);
+    position: relative;
+    border-top: 2px solid var(--clr-tactical-blue);
+}
+
+.border-bottom-tactical {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding: var(--spacing-3xl) 0;
+}
+
+.footer__title {
+    font-size: var(--text-md);
+    color: #fff;
+    margin-bottom: var(--spacing-md);
+    position: relative;
+    padding-bottom: var(--spacing-xs);
+}
+
+.footer__title::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 30px; height: 2px;
+    background: var(--clr-tactical-blue);
+}
+
+.footer__links ul {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.footer__links a {
+    color: var(--clr-text-muted);
+    font-size: var(--text-sm);
+    transition: color var(--transition-fast), padding-left var(--transition-fast);
+}
+
+.footer__links a:hover {
+    color: var(--clr-tactical-blue);
+    padding-left: 5px;
+}
+
+.footer__bottom {
+    padding: var(--spacing-lg) 0;
+}
+
+/* ==========================================================================
+   14. SISTEMA DE NOTIFICACIONES (TOAST)
+   ========================================================================== */
+.toast-container {
+    position: fixed;
+    top: 90px; right: 20px;
+    z-index: var(--z-toast);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none; /* Para no bloquear clicks si está vacío */
+}
+
+.toast {
+    width: 320px;
+    background: rgba(10, 17, 26, 0.95);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-left: 4px solid var(--clr-tactical-blue);
+    padding: 15px;
+    border-radius: 4px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    transform: translateX(120%);
+    opacity: 0;
+    transition: transform var(--transition-bounce), opacity var(--transition-base);
+    pointer-events: auto; /* Reactivar clicks en el elemento */
+}
+
+.toast.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.toast--alert { border-left-color: var(--clr-emergency-red); }
+.toast--warning { border-left-color: var(--clr-amber-alert); }
+
+.toast__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.toast__title {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.toast__close {
+    background: none; border: none;
+    color: var(--clr-text-muted);
+    cursor: pointer;
+    font-size: 1.2rem;
+    line-height: 1;
+}
+.toast__close:hover { color: #fff; }
+
+.toast__message {
+    font-size: var(--text-sm);
+    color: var(--clr-text-muted);
+}
+
+.toast__progress {
+    position: absolute;
+    bottom: 0; left: 0;
+    height: 2px;
+    background: var(--clr-tactical-blue);
+    width: 100%;
+}
+.toast--alert .toast__progress { background: var(--clr-emergency-red); }
+.toast--warning .toast__progress { background: var(--clr-amber-alert); }
+
+/* ==========================================================================
+   15. SISTEMA DE ANIMACIONES GLOBALES
+   ========================================================================== */
+
+/* Pulsaciones de colores (Para botones y nodos) */
+.pulse-red { animation: pulseRed 2s infinite; }
+@keyframes pulseRed {
+    0% { box-shadow: 0 0 0 0 rgba(255, 42, 42, 0.4); }
+    70% { box-shadow: 0 0 0 15px rgba(255, 42, 42, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 42, 42, 0); }
+}
+
+.pulse-amber { animation: pulseAmber 2s infinite; }
+@keyframes pulseAmber {
+    0% { box-shadow: 0 0 0 0 rgba(255, 179, 0, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(255, 179, 0, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 179, 0, 0); }
+}
+
+.pulse-tactical-blue { animation: pulseBlue 2s infinite; }
+@keyframes pulseBlue {
+    0% { box-shadow: 0 0 0 0 rgba(0, 229, 255, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(0, 229, 255, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(0, 229, 255, 0); }
+}
+
+/* Clases de Revelado al Scroll (Intersection Observer Classes) */
+.slide-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+.reveal-up {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+.reveal-left {
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+.reveal-right {
+    opacity: 0;
+    transform: translateX(40px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+/* La clase "is-visible" es añadida por JavaScript */
+.slide-up.is-visible, 
+.reveal-up.is-visible, 
+.reveal-left.is-visible, 
+.reveal-right.is-visible {
+    opacity: 1;
+    transform: translate(0);
+}
+
+/* ==========================================================================
+   16. MEDIA QUERIES HIPER-DETALLADAS (RESPONSIVE)
+   ========================================================================== */
+
+/* Monitores Extra Grandes (Ultra-Wide) */
+@media (min-width: 1440px) {
+    .container { max-width: 1360px; }
+    h1 { font-size: 5rem; }
+}
+
+/* Laptops y Pantallas de Escritorio (Breakpoint Base: 1024px) */
+@media (max-width: 1024px) {
+    .hero__content { max-width: 100%; text-align: center; display: flex; flex-direction: column; align-items: center; }
+    .hero__description { border-left: none; padding-left: 0; border-top: 2px solid var(--clr-tactical-blue); padding-top: var(--spacing-md); background: none; }
+    .hero__actions { justify-content: center; }
+    .hero__stats { justify-content: center; flex-wrap: wrap; }
     
-    .header__nav.is-open .header__menu {
+    .grid-2-cols { grid-template-columns: 1fr; }
+    .about__visual { margin-bottom: var(--spacing-xl); }
+}
+
+/* Tablets (Breakpoint Base: 768px) */
+@media (max-width: 768px) {
+    :root {
+        --spacing-4xl: 4rem; /* Reducir padding en mobile */
+    }
+
+    /* Modificación del Header para Mobile */
+    .nav-toggle { display: block; }
+    
+    .nav__list {
+        position: fixed;
+        top: 80px; left: -100%;
+        width: 100%; height: calc(100vh - 80px);
+        background: rgba(2, 4, 8, 0.98);
         flex-direction: column;
         align-items: center;
-        gap: var(--space-6);
+        justify-content: center;
+        gap: var(--spacing-xl);
+        transition: left var(--transition-base);
     }
     
-    .header__menu-link {
-        font-size: var(--font-size-2xl);
-    }
+    .nav__list.is-active { left: 0; }
+    .nav__link { font-size: var(--text-lg); }
+    .nav__action { display: none; } /* Ocultar botón gigante en nav móvil para optimizar espacio */
+
+    /* Animación del botón hamburguesa */
+    .nav-toggle.is-active .nav-toggle__line:nth-child(1) { top: 50%; transform: translateY(-50%) rotate(45deg); }
+    .nav-toggle.is-active .nav-toggle__line:nth-child(2) { opacity: 0; }
+    .nav-toggle.is-active .nav-toggle__line:nth-child(3) { top: 50%; transform: translateY(-50%) rotate(-45deg); }
+
+    /* HUD overlay más pequeño en móviles */
+    .hud-overlay__corner { width: 20px; height: 20px; }
+
+    /* Ajuste de Timeline */
+    .timeline::before { left: 14px; }
+    .timeline__item { padding-left: 30px; }
+    .timeline__node { transform: translateX(-5px); width: 8px; height: 8px; }
     
-    /* Ocultar botón CTA texto en móviles muy pequeños */
-    @media (max-width: 480px) {
-        .header__actions .btn__text { display: none; }
-        .header__actions .btn { padding: var(--space-2); }
+    .grid-3-cols, .grid-4-cols { grid-template-columns: 1fr; }
+    
+    .footer__brand, .footer__links, .footer__contact { text-align: center; }
+    .footer__title::after { left: 50%; transform: translateX(-50%); }
+    
+    /* Notificaciones */
+    .toast-container { right: 10px; left: 10px; top: auto; bottom: 20px; align-items: center; }
+    .toast { width: 100%; max-width: 400px; transform: translateY(120%); }
+    .toast.show { transform: translateY(0); }
+}
+
+/* Teléfonos Pequeños (Breakpoint Base: 480px) */
+@media (max-width: 480px) {
+    .brand__title { font-size: var(--text-base); }
+    .hero__stats { flex-direction: column; align-items: center; gap: var(--spacing-md); }
+    .stat-box { text-align: center; }
+    .btn { padding: 0.6rem 1.2rem; width: 100%; justify-content: center; }
+    .tactical-card { padding: var(--spacing-md); }
+    .tactical-card__header { flex-direction: column; align-items: flex-start; }
+}
+
+/* Reducción de animaciones si el usuario lo prefiere (Accesibilidad) */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
     }
 }
