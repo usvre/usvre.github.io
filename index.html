@@ -3,135 +3,863 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>USVRE - Unidad de Soporte Vital y Rescate Estratégico</title>
-    <link rel="stylesheet" href="styles.css">
-    <!-- Iconos de FontAwesome para ilustrar los departamentos -->
+    <title>USVRE | Unidad de Soporte Vital y Rescate Estratégico</title>
+    <meta name="description" content="Asociación Civil sin fines de lucro especializada en emergencias, soporte vital y rescate.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome para Iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ==========================================================================
+           VARIABLES CSS & RESET (Paleta de Colores Institucional)
+           ========================================================================== */
+        :root {
+            --color-primary: #0a192f;      /* Azul marino oscuro */
+            --color-primary-light: #112240;
+            --color-accent: #d4af37;       /* Dorado / Amarillo */
+            --color-accent-hover: #b5952f;
+            --color-alert: #cc0000;        /* Rojo emergencia */
+            --color-alert-hover: #990000;
+            --color-bg-light: #f8f9fa;
+            --color-text-dark: #333333;
+            --color-text-light: #ffffff;
+            --color-text-muted: #8892b0;
+            
+            --font-heading: 'Montserrat', sans-serif;
+            --font-body: 'Roboto', sans-serif;
+            
+            --transition: all 0.3s ease-in-out;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--color-text-dark);
+            line-height: 1.6;
+            background-color: var(--color-bg-light);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--font-heading);
+            font-weight: 700;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* ==========================================================================
+           UTILIDADES Y ANIMACIONES SCROLL (Intersection Observer)
+           ========================================================================== */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-padding {
+            padding: 80px 0;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .section-title {
+            color: var(--color-primary);
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .section-subtitle {
+            color: var(--color-text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 50px;
+        }
+
+        /* Clase para animaciones JS */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ==========================================================================
+           HEADER & NAVEGACIÓN
+           ========================================================================== */
+        header {
+            background-color: var(--color-primary);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-container img {
+            height: 50px;
+            width: auto;
+        }
+
+        .logo-text {
+            color: var(--color-text-light);
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--color-text-light);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--color-accent);
+        }
+
+        .btn-alert-nav {
+            background-color: var(--color-alert);
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-weight: 700 !important;
+        }
+
+        .btn-alert-nav:hover {
+            background-color: var(--color-alert-hover);
+            color: var(--color-text-light) !important;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            color: var(--color-text-light);
+            font-size: 1.5rem;
+        }
+
+        /* ==========================================================================
+           HERO SECTION
+           ========================================================================== */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(10, 25, 47, 0.75), rgba(10, 25, 47, 0.9)), 
+                        url('https://images.unsplash.com/photo-1599708153093-4a11f5923bc0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 80px; /* Compensa el header fijo */
+        }
+
+        .hero-content {
+            color: var(--color-text-light);
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            text-transform: uppercase;
+        }
+
+        .hero h1 span {
+            color: var(--color-accent);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            color: #d1d5db;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            background-color: var(--color-alert);
+            color: var(--color-text-light);
+            padding: 15px 35px;
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 5px;
+            text-transform: uppercase;
+            transition: var(--transition);
+            border: 2px solid var(--color-alert);
+        }
+
+        .btn-primary:hover {
+            background-color: transparent;
+            color: var(--color-alert);
+            box-shadow: 0 0 15px rgba(204, 0, 0, 0.5);
+        }
+
+        /* ==========================================================================
+           HISTORIA / QUIÉNES SOMOS
+           ========================================================================== */
+        .about {
+            background-color: var(--color-text-light);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about-text p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            color: #555;
+        }
+
+        .highlight-box {
+            background-color: var(--color-primary-light);
+            color: var(--color-text-light);
+            padding: 25px;
+            border-left: 5px solid var(--color-accent);
+            border-radius: 0 8px 8px 0;
+            margin-top: 30px;
+        }
+
+        .highlight-box i {
+            color: var(--color-accent);
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .about-image img {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        /* ==========================================================================
+           DEPARTAMENTOS Y DIVISIONES (GRID)
+           ========================================================================== */
+        .departments {
+            background-color: var(--color-bg-light);
+        }
+
+        .dept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .dept-card {
+            background-color: var(--color-text-light);
+            padding: 40px 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border-bottom: 4px solid transparent;
+        }
+
+        .dept-card:hover {
+            transform: translateY(-10px);
+            border-bottom-color: var(--color-accent);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .dept-icon {
+            font-size: 3rem;
+            color: var(--color-primary);
+            margin-bottom: 20px;
+            transition: var(--transition);
+        }
+
+        .dept-card:hover .dept-icon {
+            color: var(--color-accent);
+        }
+
+        .dept-card h3 {
+            color: var(--color-primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .dept-card p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* ==========================================================================
+           FORMULARIO DE EMERGENCIA (REPORTAR DESAPARECIDOS)
+           ========================================================================== */
+        .report-form {
+            background: linear-gradient(rgba(10, 25, 47, 0.95), rgba(10, 25, 47, 0.95)),
+                        url('https://images.unsplash.com/photo-1542385262-cdf06b2eb1bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover fixed;
+            color: var(--color-text-light);
+        }
+
+        .report-form .section-title {
+            color: var(--color-text-light);
+        }
+
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--color-text-light);
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            color: var(--color-text-dark);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            font-weight: 700;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: var(--color-primary);
+        }
+
+        .form-group input, .form-group textarea {
+            padding: 12px 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(10, 25, 47, 0.1);
+        }
+
+        .btn-submit {
+            background-color: var(--color-alert);
+            color: var(--color-text-light);
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            text-transform: uppercase;
+            transition: var(--transition);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--color-alert-hover);
+        }
+
+        #form-message {
+            display: none;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 4px;
+            font-weight: 500;
+            text-align: center;
+        }
+        .msg-success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .msg-error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+
+        /* ==========================================================================
+           LEGAL SECTION
+           ========================================================================== */
+        .legal {
+            background-color: var(--color-bg-light);
+            padding: 40px 0;
+            border-top: 1px solid #eaeaea;
+        }
+
+        .legal-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .legal-content h4 {
+            color: var(--color-primary);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        /* ==========================================================================
+           FOOTER
+           ========================================================================== */
+        footer {
+            background-color: var(--color-primary-light);
+            color: #a0aec0;
+            padding: 60px 0 20px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            color: var(--color-text-light);
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .footer-col p {
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-col ul a {
+            transition: var(--transition);
+        }
+
+        .footer-col ul a:hover {
+            color: var(--color-accent);
+            padding-left: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255,255,255,0.1);
+            color: var(--color-text-light);
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background-color: var(--color-accent);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.85rem;
+        }
+
+        /* ==========================================================================
+           RESPONSIVIDAD (MEDIA QUERIES)
+           ========================================================================== */
+        @media (max-width: 992px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+            .about-image {
+                order: -1; /* Mueve la imagen arriba en tablets/móviles */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                right: -100%;
+                width: 250px;
+                height: calc(100vh - 80px);
+                background-color: var(--color-primary-light);
+                flex-direction: column;
+                padding-top: 40px;
+                transition: right 0.4s ease;
+                box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
 
-    <!-- Navegación -->
-    <nav id="navbar">
-        <div class="logo-container">
-            <img src="/img/logo.png" alt="Logo USVRE" class="logo">
-            <span class="logo-text">USVRE</span>
-        </div>
-        <ul class="nav-links">
-            <li><a href="#inicio">Inicio</a></li>
-            <li><a href="#nosotros">Nosotros</a></li>
-            <li><a href="#departamentos">Departamentos</a></li>
-            <li><a href="#divisiones">Divisiones</a></li>
-            <li><a href="#legal">Legal</a></li>
-            <li><a href="#reportar" class="btn-emergencia">Reportar Desaparecidos</a></li>
-        </ul>
-        <div class="menu-toggle"><i class="fas fa-bars"></i></div>
-    </nav>
+    <!-- HEADER / MENÚ -->
+    <header id="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="#inicio" class="logo-container">
+                    <!-- Placeholder visual si /img/logo.png falla -->
+                    <img src="/img/logo.png" alt="Logo USVRE" onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=USVRE&background=d4af37&color=fff&rounded=true&size=128';">
+                    <span class="logo-text">USVRE</span>
+                </a>
+                
+                <ul class="nav-links">
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#nosotros">Quiénes Somos</a></li>
+                    <li><a href="#departamentos">Departamentos</a></li>
+                    <li><a href="#legal">Legal</a></li>
+                    <li><a href="#reportar" class="btn-alert-nav">Reportar Desaparecidos</a></li>
+                </ul>
 
-    <!-- Sección Hero (Inicio) -->
-    <header id="inicio" class="hero">
-        <div class="hero-content fade-in">
-            <h1>Unidad de Soporte Vital y Rescate Estratégico</h1>
-            <p>25 Profesionales Multidisciplinarios. Salvando vidas cuando cada segundo cuenta.</p>
-            <a href="#reportar" class="btn-primario">Alerta de Emergencia</a>
+                <button class="hamburger" aria-label="Menú">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
         </div>
     </header>
 
-    <!-- Sección Nosotros e Historia -->
-    <section id="nosotros" class="section-light">
-        <div class="container fade-in">
-            <h2>Nuestra Trayectoria</h2>
-            <p class="lead-text">Forjados en la adversidad. Presentes en los momentos más críticos de nuestra nación.</p>
-            <div class="info-grid">
-                <div class="info-card">
-                    <i class="fas fa-house-damage icon-gold"></i>
-                    <h3>Desastre de La Guaira</h3>
-                    <p>Nuestra unidad fue pieza clave en las operaciones de búsqueda, rescate y soporte vital durante el devastador doble terremoto en La Guaira, demostrando capacidad de respuesta inmediata y táctica en zonas de colapso estructural.</p>
-                </div>
-                <div class="info-card">
-                    <i class="fas fa-users icon-gold"></i>
-                    <h3>Fuerza de Élite</h3>
-                    <p>Integrados por 25 profesionales altamente capacitados: Bomberos, Paramédicos, Rescatistas y Especialistas en gestión de desastres, trabajando bajo protocolos internacionales.</p>
+    <main>
+        <!-- HERO SECTION -->
+        <section id="inicio" class="hero">
+            <div class="container">
+                <div class="hero-content fade-up">
+                    <h1>Respuesta Inmediata. <br><span>Compromiso Inquebrantable.</span></h1>
+                    <p>Unidad de Soporte Vital y Rescate Estratégico (USVRE) de Venezuela. Listos para intervenir y salvar vidas cuando el tiempo es el factor más crítico.</p>
+                    <a href="#reportar" class="btn-primary"><i class="fas fa-exclamation-triangle"></i> Reportar Emergencia</a>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Sección Departamentos y Divisiones -->
-    <section id="departamentos" class="section-dark">
-        <div class="container fade-in">
-            <h2>Departamentos y Divisiones</h2>
-            <div class="grid-3">
-                <div class="card">
-                    <i class="fas fa-fire-extinguisher"></i>
-                    <h3>División de Bomberos</h3>
-                    <p>Control de incendios, manejo de materiales peligrosos y extracción vehicular pesada.</p>
+        <!-- QUIÉNES SOMOS -->
+        <section id="nosotros" class="about section-padding">
+            <div class="container">
+                <div class="text-center fade-up">
+                    <h2 class="section-title">Quiénes Somos</h2>
+                    <p class="section-subtitle">Profesionales de élite unidos por una sola misión: Preservar la vida humana.</p>
                 </div>
-                <div class="card">
-                    <i class="fas fa-heartbeat"></i>
-                    <h3>Soporte Vital (Paramédicos)</h3>
-                    <p>Atención prehospitalaria avanzada, estabilización en zonas hostiles y triage masivo.</p>
-                </div>
-                <div class="card">
-                    <i class="fas fa-mountain"></i>
-                    <h3>Rescate Estratégico</h3>
-                    <p>Especialistas en rescate vertical, espacios confinados, rescate acuático y helitáctico.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Sección Legal -->
-    <section id="legal" class="section-light">
-        <div class="container fade-in text-center">
-            <h2>Estatus Legal e Independencia</h2>
-            <div class="legal-box">
-                <i class="fas fa-balance-scale icon-large"></i>
-                <p>La <strong>Unidad de Soporte Vital y Rescate Estratégico (USVRE)</strong> es una <strong>Asociación Civil sin fines de lucro</strong>. Operamos de manera completamente independiente y autónoma, sin vinculación gubernamental. Nuestro único compromiso es con la vida, la integridad de la ciudadanía y la excelencia operativa frente a desastres.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Sección Reportar Desaparecidos -->
-    <section id="reportar" class="section-alert">
-        <div class="container fade-in">
-            <div class="report-container">
-                <h2><i class="fas fa-exclamation-triangle"></i> Reportar Personas Desaparecidas</h2>
-                <p>Si te encuentras en una zona de desastre o necesitas reportar a un familiar desaparecido tras una contingencia, completa el formulario. Nuestro equipo de rastreo recibirá la información de inmediato.</p>
                 
-                <form id="form-desaparecidos" class="report-form">
-                    <div class="form-group">
-                        <input type="text" placeholder="Nombre completo del desaparecido" required>
+                <div class="about-grid">
+                    <div class="about-text fade-up">
+                        <p>La <strong>Unidad de Soporte Vital y Rescate Estratégico (USVRE)</strong> es una Asociación Civil sin fines de lucro, de carácter estrictamente no gubernamental e independiente en Venezuela.</p>
+                        <p>Nuestro escuadrón está conformado por <strong>25 profesionales multidisciplinarios altamente capacitados</strong>: paramédicos de combate, bomberos especializados, rescatistas de alta montaña y expertos en manejo de desastres.</p>
+                        
+                        <div class="highlight-box">
+                            <i class="fas fa-award"></i>
+                            <h3>Probados en la Adversidad</h3>
+                            <p>Hicimos historia por nuestra heroica y decisiva intervención durante el desastre del <strong>Doble Terremoto en La Guaira</strong>. Operamos en la zona cero sin descanso, coordinando extracciones complejas y soporte vital avanzado bajo condiciones extremas.</p>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <input type="text" placeholder="Última ubicación conocida (Detallada)" required>
+                    <div class="about-image fade-up">
+                        <img src="https://images.unsplash.com/photo-1583524505974-6facd53f4597?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Equipo de rescatistas en acción">
                     </div>
-                    <div class="form-group">
-                        <textarea placeholder="Características físicas, ropa que vestía y condiciones médicas relevantes" rows="4" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" placeholder="Tu nombre y teléfono de contacto" required>
-                    </div>
-                    <button type="submit" class="btn-submit">Emitir Reporte de Búsqueda</button>
-                </form>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Footer -->
-    <footer>
-        <div class="container footer-content">
-            <div class="footer-logo">
-                <img src="/img/logo.png" alt="Logo USVRE">
-                <p>USVRE Venezuela</p>
+        <!-- DEPARTAMENTOS Y DIVISIONES -->
+        <section id="departamentos" class="departments section-padding">
+            <div class="container">
+                <div class="text-center fade-up">
+                    <h2 class="section-title">Nuestras Divisiones</h2>
+                    <p class="section-subtitle">Capacidades tácticas y operativas desplegables a nivel nacional.</p>
+                </div>
+
+                <div class="dept-grid">
+                    <div class="dept-card fade-up">
+                        <i class="fas fa-heartbeat dept-icon"></i>
+                        <h3>Soporte Vital Avanzado</h3>
+                        <p>Atención médica prehospitalaria de trauma y emergencias clínicas con protocolos internacionales TCCC y PHTLS.</p>
+                    </div>
+                    <div class="dept-card fade-up">
+                        <i class="fas fa-mountain dept-icon"></i>
+                        <h3>Rescate en Montaña</h3>
+                        <p>Extracción y estabilización en terrenos agrestes, utilizando técnicas de cuerdas y navegación especializada.</p>
+                    </div>
+                    <div class="dept-card fade-up">
+                        <i class="fas fa-helicopter dept-icon"></i>
+                        <h3>División Aeromédica</h3>
+                        <p>Coordinación para evacuación y rescate en aeronaves de ala rotatoria en zonas de desastre o difícil acceso.</p>
+                    </div>
+                    <div class="dept-card fade-up">
+                        <i class="fas fa-building dept-icon"></i>
+                        <h3>Fuerza de Tarea BREC</h3>
+                        <p>Búsqueda y Rescate en Estructuras Colapsadas. Especialistas en apuntalamiento y penetración en escombros.</p>
+                    </div>
+                </div>
             </div>
-            <div class="footer-info">
-                <p>&copy; 2026 USVRE - Asociación Civil Sin Fines de Lucro.</p>
-                <p>Emergencias las 24 horas. Independencia y Profesionalismo.</p>
+        </section>
+
+        <!-- REPORTAR DESAPARECIDOS (FORMULARIO) -->
+        <section id="reportar" class="report-form section-padding">
+            <div class="container">
+                <div class="text-center fade-up">
+                    <h2 class="section-title">Reportar Persona Desaparecida</h2>
+                    <p class="section-subtitle" style="color: #e2e8f0;">Línea directa al centro de operaciones. La información precisa salva vidas.</p>
+                </div>
+
+                <div class="form-container fade-up">
+                    <form id="emergency-form">
+                        <div class="form-grid">
+                            <!-- Datos del Desaparecido -->
+                            <div class="form-group">
+                                <label for="missing-name">Nombre de la persona desaparecida *</label>
+                                <input type="text" id="missing-name" required placeholder="Ej. Juan Pérez">
+                            </div>
+                            <div class="form-group">
+                                <label for="missing-age">Edad y Vestimenta aproximada *</label>
+                                <input type="text" id="missing-age" required placeholder="Ej. 34 años, chaqueta azul...">
+                            </div>
+                            <div class="form-group full-width">
+                                <label for="location">Última ubicación conocida *</label>
+                                <input type="text" id="location" required placeholder="Zona, municipio, puntos de referencia clave">
+                            </div>
+                            
+                            <!-- Datos del Informante -->
+                            <div class="form-group">
+                                <label for="informant-name">Su Nombre (Informante) *</label>
+                                <input type="text" id="informant-name" required placeholder="Nombre completo">
+                            </div>
+                            <div class="form-group">
+                                <label for="informant-phone">Teléfono de Contacto Inmediato *</label>
+                                <input type="tel" id="informant-phone" required placeholder="Ej. +58 414 1234567">
+                            </div>
+                            <div class="form-group full-width">
+                                <label for="details">Detalles adicionales del incidente</label>
+                                <textarea id="details" rows="4" placeholder="Condiciones médicas, hora de desaparición, contexto del evento..."></textarea>
+                            </div>
+                            
+                            <div class="form-group full-width">
+                                <button type="submit" class="btn-submit">
+                                    <i class="fas fa-paper-plane"></i> Enviar Alerta Oficial
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="form-message"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LEGAL -->
+        <section id="legal" class="legal">
+            <div class="container">
+                <div class="legal-content fade-up">
+                    <h4>Aviso Legal y Descargo de Responsabilidad</h4>
+                    <p>La Unidad de Soporte Vital y Rescate Estratégico (USVRE) es una ONG registrada en la República Bolivariana de Venezuela, conformada por voluntarios profesionales. El uso de esta plataforma para realizar reportes falsos o de broma constituye un delito y retrasa la atención a víctimas reales. La USVRE se reserva el derecho de canalizar dichas conductas ante las autoridades competentes. La información suministrada se procesa bajo estricta confidencialidad operativa.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>USVRE</h3>
+                    <p>Asociación Civil independiente, comprometida con la excelencia táctica en el rescate y soporte vital en toda Venezuela.</p>
+                </div>
+                <div class="footer-col">
+                    <h3>Enlaces Rápidos</h3>
+                    <ul>
+                        <li><a href="#inicio">Inicio</a></li>
+                        <li><a href="#nosotros">Nuestra Historia</a></li>
+                        <li><a href="#departamentos">Operaciones</a></li>
+                        <li><a href="#reportar">Alerta de Emergencia</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Contacto Comando</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Caracas, Venezuela.</p>
+                    <p><i class="fas fa-envelope"></i> emergencias@usvre.org</p>
+                    <p><i class="fas fa-phone-alt"></i> +58 800-USVRE-00</p>
+                </div>
+                <div class="footer-col">
+                    <h3>Redes Oficiales</h3>
+                    <div class="social-links">
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Unidad de Soporte Vital y Rescate Estratégico (USVRE). Todos los derechos reservados. | ONG Independiente.</p>
             </div>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <!-- JAVASCRIPT -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            /* ==========================================================================
+               1. MENÚ HAMBURGUESA (MOBILE)
+               ========================================================================== */
+            const hamburger = document.querySelector('.hamburger');
+            const navLinks = document.querySelector('.nav-links');
+            const navItems = document.querySelectorAll('.nav-links a');
+
+            hamburger.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                
+                // Animar el icono de hamburguesa a cruz (opcional)
+                const icon = hamburger.querySelector('i');
+                if(navLinks.classList.contains('active')){
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+
+            // Cerrar menú al hacer click en un enlace
+            navItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    navLinks.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                });
+            });
+
+            /* ==========================================================================
+               2. SCROLL ANIMATION (INTERSECTION OBSERVER)
+               ========================================================================== */
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15 // El 15% del elemento debe ser visible para disparar
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); // Solo animar una vez
+                    }
+                });
+            }, observerOptions);
+
+            const fadeElements = document.querySelectorAll('.fade-up');
+            fadeElements.forEach(el => {
+                observer.observe(el);
+            });
+
+            /* ==========================================================================
+               3. VALIDACIÓN VISUAL DEL FORMULARIO
+               ========================================================================== */
+            const form = document.getElementById('emergency-form');
+            const formMessage = document.getElementById('form-message');
+
+            if(form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault(); // Evita recargar la página
+
+                    // Cambio de estado del botón a cargando
+                    const btn = form.querySelector('.btn-submit');
+                    const originalBtnHTML = btn.innerHTML;
+                    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Transmitiendo datos...';
+                    btn.disabled = true;
+
+                    // Simulando una petición AJAX/API
+                    setTimeout(() => {
+                        formMessage.style.display = 'block';
+                        formMessage.className = 'msg-success';
+                        formMessage.innerHTML = '<i class="fas fa-check-circle"></i> <strong>Alerta Recibida.</strong> Nuestro equipo táctico ha sido notificado y se comunicará de inmediato al número proporcionado.';
+                        
+                        form.reset(); // Limpiar el formulario
+                        
+                        // Restaurar botón
+                        btn.innerHTML = originalBtnHTML;
+                        btn.disabled = false;
+
+                        // Ocultar mensaje después de 8 segundos
+                        setTimeout(() => {
+                            formMessage.style.display = 'none';
+                        }, 8000);
+                        
+                    }, 2000);
+                });
+            }
+        });
+    </script>
 </body>
 </html>
-
