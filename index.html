@@ -1,1 +1,137 @@
-index
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USVRE - Unidad de Soporte Vital y Rescate Estratégico</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Iconos de FontAwesome para ilustrar los departamentos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Navegación -->
+    <nav id="navbar">
+        <div class="logo-container">
+            <img src="/img/logo.png" alt="Logo USVRE" class="logo">
+            <span class="logo-text">USVRE</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#nosotros">Nosotros</a></li>
+            <li><a href="#departamentos">Departamentos</a></li>
+            <li><a href="#divisiones">Divisiones</a></li>
+            <li><a href="#legal">Legal</a></li>
+            <li><a href="#reportar" class="btn-emergencia">Reportar Desaparecidos</a></li>
+        </ul>
+        <div class="menu-toggle"><i class="fas fa-bars"></i></div>
+    </nav>
+
+    <!-- Sección Hero (Inicio) -->
+    <header id="inicio" class="hero">
+        <div class="hero-content fade-in">
+            <h1>Unidad de Soporte Vital y Rescate Estratégico</h1>
+            <p>25 Profesionales Multidisciplinarios. Salvando vidas cuando cada segundo cuenta.</p>
+            <a href="#reportar" class="btn-primario">Alerta de Emergencia</a>
+        </div>
+    </header>
+
+    <!-- Sección Nosotros e Historia -->
+    <section id="nosotros" class="section-light">
+        <div class="container fade-in">
+            <h2>Nuestra Trayectoria</h2>
+            <p class="lead-text">Forjados en la adversidad. Presentes en los momentos más críticos de nuestra nación.</p>
+            <div class="info-grid">
+                <div class="info-card">
+                    <i class="fas fa-house-damage icon-gold"></i>
+                    <h3>Desastre de La Guaira</h3>
+                    <p>Nuestra unidad fue pieza clave en las operaciones de búsqueda, rescate y soporte vital durante el devastador doble terremoto en La Guaira, demostrando capacidad de respuesta inmediata y táctica en zonas de colapso estructural.</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-users icon-gold"></i>
+                    <h3>Fuerza de Élite</h3>
+                    <p>Integrados por 25 profesionales altamente capacitados: Bomberos, Paramédicos, Rescatistas y Especialistas en gestión de desastres, trabajando bajo protocolos internacionales.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Departamentos y Divisiones -->
+    <section id="departamentos" class="section-dark">
+        <div class="container fade-in">
+            <h2>Departamentos y Divisiones</h2>
+            <div class="grid-3">
+                <div class="card">
+                    <i class="fas fa-fire-extinguisher"></i>
+                    <h3>División de Bomberos</h3>
+                    <p>Control de incendios, manejo de materiales peligrosos y extracción vehicular pesada.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-heartbeat"></i>
+                    <h3>Soporte Vital (Paramédicos)</h3>
+                    <p>Atención prehospitalaria avanzada, estabilización en zonas hostiles y triage masivo.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-mountain"></i>
+                    <h3>Rescate Estratégico</h3>
+                    <p>Especialistas en rescate vertical, espacios confinados, rescate acuático y helitáctico.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Legal -->
+    <section id="legal" class="section-light">
+        <div class="container fade-in text-center">
+            <h2>Estatus Legal e Independencia</h2>
+            <div class="legal-box">
+                <i class="fas fa-balance-scale icon-large"></i>
+                <p>La <strong>Unidad de Soporte Vital y Rescate Estratégico (USVRE)</strong> es una <strong>Asociación Civil sin fines de lucro</strong>. Operamos de manera completamente independiente y autónoma, sin vinculación gubernamental. Nuestro único compromiso es con la vida, la integridad de la ciudadanía y la excelencia operativa frente a desastres.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Reportar Desaparecidos -->
+    <section id="reportar" class="section-alert">
+        <div class="container fade-in">
+            <div class="report-container">
+                <h2><i class="fas fa-exclamation-triangle"></i> Reportar Personas Desaparecidas</h2>
+                <p>Si te encuentras en una zona de desastre o necesitas reportar a un familiar desaparecido tras una contingencia, completa el formulario. Nuestro equipo de rastreo recibirá la información de inmediato.</p>
+                
+                <form id="form-desaparecidos" class="report-form">
+                    <div class="form-group">
+                        <input type="text" placeholder="Nombre completo del desaparecido" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" placeholder="Última ubicación conocida (Detallada)" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea placeholder="Características físicas, ropa que vestía y condiciones médicas relevantes" rows="4" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" placeholder="Tu nombre y teléfono de contacto" required>
+                    </div>
+                    <button type="submit" class="btn-submit">Emitir Reporte de Búsqueda</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-logo">
+                <img src="/img/logo.png" alt="Logo USVRE">
+                <p>USVRE Venezuela</p>
+            </div>
+            <div class="footer-info">
+                <p>&copy; 2026 USVRE - Asociación Civil Sin Fines de Lucro.</p>
+                <p>Emergencias las 24 horas. Independencia y Profesionalismo.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
