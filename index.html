@@ -1,277 +1,180 @@
+<!-- [Bloque 1]: index.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="USVRE - Unidad de Soporte Vital y Rescate Estratégico. Asociación civil de especialistas en emergencias y atención prehospitalaria.">
-    <title>USVRE | Unidad de Soporte Vital y Rescate Estratégico</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- Precarga de fuentes para estética táctica -->
+    <title>Unidad USVRE | Centro de Comando de Emergencias</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Syncopate:wght@400;700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="main.js" defer></script>
 </head>
-<body class="theme-dark tactical-ui">
-    
-    <!-- Contenedor HUD perimetral -->
-    <div class="hud-overlay">
-        <div class="hud-overlay__corner hud-overlay__corner--tl"></div>
-        <div class="hud-overlay__corner hud-overlay__corner--tr"></div>
-        <div class="hud-overlay__corner hud-overlay__corner--bl"></div>
-        <div class="hud-overlay__corner hud-overlay__corner--br"></div>
-    </div>
-
-    <!-- Sistema de Alertas Toast (Inyectado vía JS) -->
-    <div id="toast-container" class="toast-container" aria-live="polite"></div>
-
-    <!-- HEADER & NAVEGACIÓN -->
-    <header class="header" id="main-header">
-        <div class="header__container">
-            <a href="#inicio" class="brand">
-                <div class="brand__logo-wrapper">
-                    <img src="/img/logo.png" alt="Logo USVRE" class="brand__logo">
-                    <div class="brand__scanner-line"></div>
-                </div>
-                <div class="brand__text">
-                    <span class="brand__title">USVRE</span>
-                    <span class="brand__subtitle">Soporte Vital y Rescate</span>
-                </div>
+<body>
+    <header class="glass-header">
+        <div class="nav-container">
+            <a href="index.html" class="logo-wrapper">
+                <img src="/img/logo.png" alt="Logo Unidad USVRE" class="logo">
+                <span class="logo-text">USVRE<span class="dot">.</span></span>
             </a>
-
-            <button class="nav-toggle" id="mobile-menu-btn" aria-label="Abrir menú">
-                <span class="nav-toggle__line"></span>
-                <span class="nav-toggle__line"></span>
-                <span class="nav-toggle__line"></span>
+            
+            <button class="hamburger" aria-label="Abrir menú" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
             </button>
 
-            <nav class="nav" id="main-nav">
-                <ul class="nav__list">
-                    <li class="nav__item"><a href="#inicio" class="nav__link nav__link--active">Inicio</a></li>
-                    <li class="nav__item"><a href="departamentos.html" class="nav__link">Departamentos</a></li>
-                    <li class="nav__item"><a href="divisiones.html" class="nav__link">Divisiones</a></li>
-                    <li class="nav__item"><a href="#nosotros" class="nav__link">Nosotros</a></li>
-                    <li class="nav__item"><a href="legal.html" class="nav__link">Legal</a></li>
+            <nav class="nav-links">
+                <ul>
+                    <li><a href="index.html" class="active">Inicio</a></li>
+                    <li><a href="/departamentos.html">Departamentos</a></li>
+                    <li><a href="/divisiones.html">Divisiones</a></li>
+                    <li><a href="/legal.html">Legal</a></li>
+                    <li>
+                        <a href="/reportardesaparecidos.html" class="btn-alert">
+                            <span class="alert-icon"></span>
+                            Reportar Desaparecidos
+                        </a>
+                    </li>
                 </ul>
-                <div class="nav__action">
-                    <button class="btn btn--emergency pulse-red" id="btn-reportar">
-                        <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-                        <span>Reportar Desaparecidos</span>
-                    </button>
-                </div>
             </nav>
         </div>
     </header>
 
     <main>
-        <!-- HERO SECTION -->
-        <section id="inicio" class="hero">
-            <!-- Canvas de fondo para simulación de radar/topografía interactiva -->
-            <canvas id="radar-canvas" class="hero__canvas"></canvas>
-            
-            <div class="hero__content-wrapper">
-                <div class="hero__content container">
-                    <div class="hero__badge slide-up" data-delay="0">
-                        <span class="hero__badge-dot pulse-amber"></span>
-                        SISTEMA OPERATIVO ACTIVO
-                    </div>
-                    <h1 class="hero__title slide-up" data-delay="100">
-                        <span class="text-glow-blue">Respuesta Inmediata.</span><br>
-                        Precisión Táctica.
-                    </h1>
-                    <p class="hero__description slide-up" data-delay="200">
-                        Somos la Unidad de Soporte Vital y Rescate Estratégico. Despliegue de élite para situaciones de crisis y atención prehospitalaria.
-                    </p>
-                    <div class="hero__actions slide-up" data-delay="300">
-                        <a href="#operaciones" class="btn btn--primary btn--glitch">
-                            Ver Operaciones
-                            <span class="btn__scanner"></span>
-                        </a>
-                        <a href="#emergencia" class="btn btn--outline">
-                            Protocolos de Alerta
-                        </a>
-                    </div>
+        <section id="hero" class="hero-section">
+            <canvas id="networkCanvas"></canvas>
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <div class="badge reveal-element">SISTEMA DE RESPUESTA ACTIVO</div>
+                <h1 class="hero-title reveal-element delay-1">
+                    Unidad USVRE<br>
+                    <span class="text-gradient">Preparados para salvar vidas</span>
+                </h1>
+                <p class="hero-subtitle reveal-element delay-2">
+                    Centro de comando integral. Fusión de tecnología táctica, operaciones de rescate avanzadas y soporte paramédico de élite. Monitoreo global 24/7.
+                </p>
+                <div class="hero-actions reveal-element delay-3">
+                    <a href="/divisiones.html" class="btn btn-primary">
+                        Conoce nuestras divisiones
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </a>
+                    <a href="#report" class="btn btn-outline-danger btn-pulse">Reportar Emergencia</a>
                 </div>
-                
-                <div class="hero__stats container slide-up" data-delay="400">
-                    <div class="stat-box">
-                        <div class="stat-box__value" data-target="25">0</div>
-                        <div class="stat-box__label">Especialistas de Élite</div>
-                    </div>
-                    <div class="stat-box">
-                        <div class="stat-box__value">24/7</div>
-                        <div class="stat-box__label">Disponibilidad Operativa</div>
-                    </div>
-                    <div class="stat-box">
-                        <div class="stat-box__value" data-target="100">+0</div>
-                        <div class="stat-box__label">Intervenciones Exitosas</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="scroll-indicator">
-                <span class="scroll-indicator__text">DESCENDER</span>
-                <div class="scroll-indicator__line"></div>
             </div>
         </section>
 
-        <!-- SECCIÓN: QUIÉNES SOMOS -->
-        <section id="nosotros" class="about section-padding">
-            <div class="container grid-2-cols align-center">
-                <div class="about__visual reveal-left">
-                    <div class="tactical-frame">
-                        <div class="tactical-frame__grid-overlay"></div>
-                        <!-- Placeholder táctico -->
-                        <div class="image-placeholder bg-pattern">
-                            <span class="image-placeholder__text">USVRE_TEAM_DATA</span>
+        <section id="about" class="about-section">
+            <div class="container layout-grid-2">
+                <div class="about-text reveal-element">
+                    <h2 class="section-title">Precisión. <span class="text-accent">Velocidad.</span> Rescate.</h2>
+                    <p class="lead">No somos solo un equipo; somos una red de protocolos vitales ejecutados a la perfección.</p>
+                    <p>La Unidad USVRE unifica las disciplinas de bomberos, paramédicos y especialistas en rescate voluntario bajo una infraestructura tecnológica de vanguardia. Utilizamos telemetría en tiempo real, análisis predictivo de desastres y sistemas de comunicación encriptada para garantizar despliegues precisos en el punto cero de cualquier emergencia.</p>
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <h3 class="stat-num">90s</h3>
+                            <p class="stat-label">Tiempo de Despliegue</p>
                         </div>
-                        <div class="tactical-frame__data-tag">ID: USVRE-001</div>
+                        <div class="stat-box">
+                            <h3 class="stat-num">24/7</h3>
+                            <p class="stat-label">Monitoreo Táctico</p>
+                        </div>
                     </div>
                 </div>
-                <div class="about__text reveal-right">
-                    <h2 class="section-title">Asociación Civil <span class="text-accent">Independiente</span></h2>
-                    <p class="text-body-large">
-                        La USVRE es una organización no gubernamental sin fines de lucro, conformada por un grupo selecto de <strong>25 profesionales</strong> altamente capacitados.
-                    </p>
-                    <p class="text-body-muted">
-                        Nuestro batallón incluye bomberos, paramédicos, rescatistas y especialistas en contingencias. Actuamos con total independencia logística y operativa para asegurar que la ayuda llegue donde la burocracia se detiene. Nuestro enfoque es científico, táctico y profundamente humano.
-                    </p>
-                    <ul class="tactical-list mt-md">
-                        <li><span class="tactical-list__icon"></span> Capacitación bajo estándares internacionales.</li>
-                        <li><span class="tactical-list__icon"></span> Equipamiento tecnológico de vanguardia.</li>
-                        <li><span class="tactical-list__icon"></span> Despliegue en zona cero en tiempo récord.</li>
-                    </ul>
+                <div class="about-visual reveal-element delay-2">
+                    <div class="radar-container">
+                        <div class="radar"></div>
+                        <div class="radar-sweep"></div>
+                        <div class="radar-dot dot-1"></div>
+                        <div class="radar-dot dot-2"></div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- SECCIÓN: HITOS Y OPERACIONES CRÍTICAS -->
-        <section id="operaciones" class="operations section-padding bg-darker">
+        <section id="departamentos" class="departments-section">
             <div class="container">
-                <div class="section-header reveal-up">
-                    <span class="section-subtitle text-amber">REGISTRO TÁCTICO</span>
-                    <h2 class="section-title">Hitos y Operaciones Críticas</h2>
+                <div class="section-header reveal-element">
+                    <h2 class="section-title">Departamentos <span class="text-gradient">Destacados</span></h2>
+                    <p class="section-subtitle">Fuerzas operativas especializadas trabajando en sincronía absoluta.</p>
                 </div>
-                
-                <div class="timeline mt-lg">
-                    <!-- Operación destacada respetando las directrices de sensibilidad -->
-                    <div class="timeline__item reveal-up" data-delay="100">
-                        <div class="timeline__node pulse-tactical-blue"></div>
-                        <div class="timeline__content tactical-card">
-                            <div class="tactical-card__header">
-                                <span class="tactical-card__date">REGISTRO CLASIFICADO</span>
-                                <span class="badge badge--critical">CRÍTICO</span>
+
+                <div class="cards-grid">
+                    <!-- Tarjeta 1: Paramédicos -->
+                    <article class="tilt-card reveal-element delay-1">
+                        <div class="card-inner">
+                            <div class="card-glow"></div>
+                            <div class="card-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
                             </div>
-                            <h3 class="tactical-card__title">Intervención en la Crisis Sísmica Regional</h3>
-                            <p class="tactical-card__body">
-                                Durante el reciente evento de emergencia estructural y sísmica, nuestros 25 especialistas realizaron un despliegue inmediato. Ejecutamos protocolos de soporte vital avanzado, extracción en estructuras colapsadas y atención prehospitalaria, priorizando en todo momento la recuperación de nuestra comunidad y el manejo sensible de los afectados.
-                            </p>
+                            <h3>Soporte Vital Avanzado</h3>
+                            <h4>PARAMÉDICOS</h4>
+                            <p>Intervención médica crítica en zonas de alto riesgo. Equipados con telemedicina integrada y protocolos de trauma nivel 1.</p>
+                            <span class="tech-tag">CÓDIGO AZUL ACTIVO</span>
                         </div>
-                    </div>
+                    </article>
 
-                    <div class="timeline__item reveal-up" data-delay="200">
-                        <div class="timeline__node pulse-tactical-blue"></div>
-                        <div class="timeline__content tactical-card">
-                            <div class="tactical-card__header">
-                                <span class="tactical-card__date">OPERACIÓN CONTINUA</span>
-                                <span class="badge badge--success">ACTIVO</span>
+                    <!-- Tarjeta 2: Bomberos -->
+                    <article class="tilt-card reveal-element delay-2">
+                        <div class="card-inner border-red">
+                            <div class="card-glow"></div>
+                            <div class="card-icon red-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2c0 0-4.5 3.5-4.5 9 0 4.5 4.5 11 4.5 11s4.5-6.5 4.5-11C16.5 5.5 12 2 12 2z"></path></svg>
                             </div>
-                            <h3 class="tactical-card__title">Unidad de Búsqueda y Rescate</h3>
-                            <p class="tactical-card__body">
-                                Mantenimiento de guardias operativas para la localización de personas extraviadas en zonas montañosas y estructuras de difícil acceso mediante el uso de telemetría y rastreo.
-                            </p>
+                            <h3>Supresión y Extracción</h3>
+                            <h4>BOMBEROS</h4>
+                            <p>Manejo de materiales peligrosos, rescate estructural y control de incendios utilizando exoesqueltos térmicos y drones de mapeo.</p>
+                            <span class="tech-tag danger-tag">CÓDIGO ROJO ACTIVO</span>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+                    </article>
 
-        <!-- SECCIÓN: INFORMACIÓN DE EMERGENCIA -->
-        <section id="emergencia" class="emergency-info section-padding">
-            <div class="container">
-                <div class="section-header reveal-up">
-                    <span class="section-subtitle text-red">MONITOREO EN TIEMPO REAL</span>
-                    <h2 class="section-title">Protocolos y Alertas</h2>
-                </div>
-
-                <div class="grid-3-cols mt-md gap-lg">
-                    <div class="info-panel alert-panel reveal-up" data-delay="100">
-                        <div class="info-panel__icon-wrapper text-red">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                    <!-- Tarjeta 3: Voluntarios -->
+                    <article class="tilt-card reveal-element delay-3">
+                        <div class="card-inner">
+                            <div class="card-glow"></div>
+                            <div class="card-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+                            </div>
+                            <h3>Logística y Rastreo</h3>
+                            <h4>VOLUNTARIOS</h4>
+                            <p>Especialistas en búsqueda de área extensa, apoyo logístico perimetral y coordinación civil comunitaria. La fuerza multiplicadora.</p>
+                            <span class="tech-tag">CÓDIGO VERDE ACTIVO</span>
                         </div>
-                        <h4 class="info-panel__title">Alerta Estructural</h4>
-                        <p class="info-panel__desc">Manténgase alejado de edificaciones inestables post-eventos. Reporte grietas diagonales severas.</p>
-                        <div class="info-panel__status">
-                            <span class="status-indicator yellow"></span> PRECAUCIÓN
-                        </div>
-                    </div>
-
-                    <div class="info-panel tech-panel reveal-up" data-delay="200">
-                        <div class="info-panel__icon-wrapper text-blue">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                        </div>
-                        <h4 class="info-panel__title">Tiempos de Respuesta</h4>
-                        <p class="info-panel__desc">Unidades motorizadas y de rescate avanzado en stand-by. Tiempo estimado de despliegue urbano: < 8 min.</p>
-                        <div class="info-panel__status">
-                            <span class="status-indicator green"></span> ÓPTIMO
-                        </div>
-                    </div>
-
-                    <div class="info-panel action-panel reveal-up" data-delay="300">
-                        <div class="info-panel__icon-wrapper text-amber">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
-                        </div>
-                        <h4 class="info-panel__title">Canales Médicos</h4>
-                        <p class="info-panel__desc">Red de telemedicina prehospitalaria activa. Triaje digital habilitado para evaluación primaria remota.</p>
-                        <button class="btn btn--sm btn--outline-amber mt-sm w-full">Conectar Triaje</button>
-                    </div>
+                    </article>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- FOOTER -->
-    <footer class="footer">
-        <div class="footer__top border-bottom-tactical">
-            <div class="container grid-4-cols gap-lg">
-                <div class="footer__brand">
-                    <div class="brand__logo-wrapper mb-sm">
-                        <img src="/img/logo.png" alt="Logo USVRE" class="brand__logo" style="width: 60px;">
-                    </div>
-                    <p class="text-body-muted text-sm">
-                        Unidad de Soporte Vital y Rescate Estratégico. Disciplina, vanguardia y humanidad en cada intervención.
-                    </p>
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div class="footer-brand">
+                <div class="logo-wrapper">
+                    <img src="/img/logo.png" alt="Logo USVRE" class="logo">
+                    <span class="logo-text">USVRE</span>
                 </div>
-                <div class="footer__links">
-                    <h5 class="footer__title">Departamentos</h5>
-                    <ul>
-                        <li><a href="departamentos.html#rescate">Búsqueda y Rescate</a></li>
-                        <li><a href="departamentos.html#prehospitalaria">Atención Prehospitalaria</a></li>
-                        <li><a href="departamentos.html#logistica">Logística y Telecomunicaciones</a></li>
-                    </ul>
-                </div>
-                <div class="footer__links">
-                    <h5 class="footer__title">Enlaces Rápidos</h5>
-                    <ul>
-                        <li><a href="#inicio">Inicio</a></li>
-                        <li><a href="divisiones.html">Divisiones de Especialidad</a></li>
-                        <li><a href="legal.html">Marco Legal / ONG</a></li>
-                    </ul>
-                </div>
-                <div class="footer__contact">
-                    <h5 class="footer__title">Comunicaciones</h5>
-                    <p class="text-sm text-body-muted mb-xs">Plataforma Oficial:</p>
-                    <a href="https://www.usvre.github.io" target="_blank" class="footer__social-link text-tactical-blue mb-sm block">www.usvre.github.io</a>
-                    
-                    <p class="text-sm text-body-muted mb-xs">Instagram Operativo:</p>
-                    <a href="https://instagram.com/usvre_ve" target="_blank" class="footer__social-link text-tactical-blue block">@usvre_ve</a>
-                </div>
+                <p>Centro de Comando Táctico y Emergencias. Preparados para intervenir cuando el tiempo es el enemigo.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Navegación</h4>
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="/departamentos.html">Departamentos</a></li>
+                    <li><a href="/divisiones.html">Divisiones</a></li>
+                    <li><a href="/legal.html">Legal</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4>Comando Central</h4>
+                <p>Emergencias: <strong>911</strong> / <strong>CÓDIGO CERO</strong></p>
+                <p>Soporte Táctico: comms@usvre.org</p>
+                <a href="/reportardesaparecidos.html" class="btn-footer-alert">REPORTAR DESAPARECIDO</a>
             </div>
         </div>
-        <div class="footer__bottom container text-center">
-            <p class="text-xs text-body-muted">&copy; <span id="current-year"></span> USVRE. Asociación Civil Sin Fines de Lucro. Desarrollado con tecnología táctica de alto rendimiento.</p>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Unidad USVRE. Todos los derechos reservados. Red encriptada militar grado 4.</p>
         </div>
     </footer>
-
-    <script src="script.js"></script>
 </body>
 </html>
