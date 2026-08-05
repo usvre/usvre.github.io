@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alerta Sísmica PWA</title>
+    <!-- Vinculamos el manifest para que sea instalable -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#d32f2f">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        button {
+            background-color: #d32f2f;
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 0;
+            width: 100%;
+        }
+        button:disabled { background-color: #ccc; }
+        #install-btn { display: none; background-color: #1976d2; }
+        .status { margin-top: 20px; font-weight: bold; color: #555; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🚨 Alerta Sísmica</h1>
+        <p>Monitoreo de sismos cerca de tu ubicación.</p>
+        
+        <button id="install-btn">📲 Instalar App</button>
+        <button id="start-btn">Activar Monitoreo</button>
+        
+        <div id="status" class="status">Esperando activación...</div>
+        <div id="earthquakes"></div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
