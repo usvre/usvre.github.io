@@ -175,7 +175,7 @@ ul { list-style: none; }
 .logo-wrapper:hover { transform: scale(1.05); }
 
 .logo {
-    height: 48px;
+    height: 58px;
     filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.3));
 }
 
